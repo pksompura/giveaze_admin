@@ -1,0 +1,118 @@
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button, Card, message, Spin, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Import React Quill styles
+import { useGetSettingsQuery, useUpdateSettingsMutation, useUpdatebannerMutation } from "../../redux/services/campaignApi";
+
+const Settings = () => {
+  const { data, isLoading } = useGetSettingsQuery();
+  const [updateSettings, { isLoading: isUpdating }] = useUpdateSettingsMutation();
+  const [updateBanner] = useUpdatebannerMutation();
+  const [form] = Form.useForm();
+
+  // State for React Quill fields
+  const [privacyPolicy, setPrivacyPolicy] = useState("");
+  const [terms, setTerms] = useState("");
+  const [aboutUs, setAboutUs] = useState("");
+
+  // State for image upload
+  const [bannerImage, setBannerImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
+
+  useEffect(() => {
+    if (data?.data) {
+      form.setFieldsValue(data.data);
+      setPrivacyPolicy(data.data.privacypolicy || "");
+      setTerms(data.data.terms || "");
+      setAboutUs(data.data.about_us || "");
+      setPreviewImage(data.data.banner_link || ""); // Set initial preview image
+    }
+  }, [data, form]);
+
+  // Handle image change
+  const handleImageChange = ({ file }) => {
+    if (file.status === "done" || file.status === "uploading") {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setBannerImage(reader.result);
+        setPreviewImage(URL.createObjectURL(file.originFileObj)); // Show preview
+      };
+      reader.readAsDataURL(file.originFileObj);
+    }
+  };
+
+  const onFinish = async (values) => {
+    try {
+      let bannerUrl = previewImage; // Use the existing banner link if no new image is uploaded
+
+      if (bannerImage) {
+        // Upload only if a new image is selected
+        const response = await updateBanner({ image: bannerImage }).unwrap();
+        bannerUrl = response.newImageUrl;
+      }
+
+      const updatedValues = {
+        ...values,
+        privacypolicy: privacyPolicy,
+        terms: terms,
+        about_us: aboutUs,
+        banner_link: bannerUrl, // Update with the new banner image URL
+      };
+
+      await updateSettings(updatedValues).unwrap();
+      message.success("Settings updated successfully");
+    } catch (error) {
+      message.error("Failed to update settings");
+    }
+  };
+
+  return (
+    <Card title="Settings">
+      {isLoading ? (
+        <Spin />
+      ) : (
+        <Form form={form} layout="vertical" onFinish={onFinish}>
+          {/* React Quill Fields */}
+          <Form.Item label="Privacy Policy" name="privacypolicy">
+            <ReactQuill value={privacyPolicy} onChange={setPrivacyPolicy} />
+          </Form.Item>
+          <Form.Item label="Terms & Conditions" name="terms">
+            <ReactQuill value={terms} onChange={setTerms} />
+          </Form.Item>
+          <Form.Item label="About Us" name="about_us">
+            <ReactQuill value={aboutUs} onChange={setAboutUs} />
+          </Form.Item>
+
+          {/* Other Fields */}
+          <Form.Item label="Banner Title" name="banner_title">
+            <Input />
+          </Form.Item>
+
+          {/* Banner Upload */}
+          <Form.Item label="Banner Image">
+            <Upload
+              accept="image/*"
+              showUploadList={false}
+              beforeUpload={() => false} // Prevent auto-upload
+              onChange={handleImageChange}
+            >
+              <Button icon={<UploadOutlined />}>Upload Banner</Button>
+            </Upload>
+            {previewImage && (
+              <img src={previewImage} alt="Banner Preview" style={{ marginTop: 10, width: "100%", maxHeight: "200px", objectFit: "cover" }} />
+            )}
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={isUpdating}>
+              Save Settings
+            </Button>
+          </Form.Item>
+        </Form>
+      )}
+    </Card>
+  );
+};
+
+export default Settings;
