@@ -41,7 +41,7 @@ const CampaignForm = () => {
   const router = useNavigate();
   const [categories, setCategories] = useState([]);
   const [donationAmount, setDonationAmount] = useState("");
-  const [donationAmounts, setDonationAmounts] = useState([]);
+  // const [donationAmounts, setDonationAmounts] = useState([]);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewData, setPreviewData] = useState({});
   const fetchCategories = async () => {
@@ -136,6 +136,7 @@ const CampaignForm = () => {
           state: "",
           beneficiary: "",
           video_link: "",
+          donationAmount: "",
           donation_amounts: [],
           main_picture: null,
           other_pictures: [],
@@ -247,11 +248,9 @@ const CampaignForm = () => {
     }
   };
   const handlePreview = (values) => {
-    console.log(values);
     setPreviewData(values);
     setPreviewOpen(true);
   };
-
   // Remove donation amount using Formik's setFieldValue
   const handleRemoveDonationAmount = (index) => {
     const updatedAmounts = form.values.donation_amounts.filter(

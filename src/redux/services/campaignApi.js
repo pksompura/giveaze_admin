@@ -118,24 +118,30 @@ export const campaignApi = createApi({
       query: () => ({
         url: "/users/get-user-profile",
       }),
-
     }),
     updateSettings: builder.mutation({
-      query: ( body) => ({
+      query: (body) => ({
         url: "/users/update-settings",
         method: "POST",
         body,
       }),
-
     }),
     getSettings: builder.query({
       query: () => ({
         url: "/users/get-settings",
       }),
-
     }),
     getAllDonations: builder.query({
-      query: ({ page = 1, limit = 10, search = "", min_amount, max_amount, start_date, end_date, payment_status } = {}) => {
+      query: ({
+        page = 1,
+        limit = 10,
+        search = "",
+        min_amount,
+        max_amount,
+        start_date,
+        end_date,
+        payment_status,
+      } = {}) => {
         const params = new URLSearchParams();
 
         params.append("page", page);
@@ -163,7 +169,7 @@ export const campaignApi = createApi({
     }),
 
     updatebanner: builder.mutation({
-      query: ( body) => ({
+      query: (body) => ({
         url: "donation_campaign/banners/update",
         method: "POST",
         body,
@@ -177,13 +183,24 @@ export const campaignApi = createApi({
       providesTags: ["transactions"],
     }),
 
-    // 🔹 Get transactions by date filter & export CSV 
+    // 🔹 Get transactions by date filter & export CSV
+    //   getTransactionsByDate: builder.query({
+    //     query: ({ start_date, end_date }) => ({
+    //       url: `transactions/transactions/export`,
+    //       params: { start_date, end_date },
+    //     }),
+    //     providesTags: ["transactions"],
+    //   }),
     getTransactionsByDate: builder.query({
       query: ({ start_date, end_date }) => ({
         url: `transactions/transactions/export`,
-        params: { start_date, end_date },  
+        params: { start_date, end_date },
+        responseHandler: (response) => response.blob(), // ✅ Important
+        headers: {
+          Accept:
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
       }),
-      providesTags: ["transactions"],
     }),
   }),
 });
@@ -211,5 +228,5 @@ export const {
   useDeleteSubCampaignMutation,
   useDeleteEnquiryMutation,
   useGetSettingsQuery,
-  useUpdateSettingsMutation
+  useUpdateSettingsMutation,
 } = campaignApi;

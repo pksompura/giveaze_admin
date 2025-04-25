@@ -44,7 +44,14 @@ const DeviceLinkRequest = () => {
     {
       dataIndex: "_id", // Ensure to map the correct field for the ID
       title: "ID",
-      width: 40,
+      width: 120,
+      render: (text) => (
+        <div style={{ fontSize: "12px", lineHeight: "1.3" }}>
+          {text?.slice(0, text.length / 2)}
+          <br />
+          {text?.slice(text.length / 2)}
+        </div>
+      ),
     },
     {
       dataIndex: "campaign_title", // Correct mapping based on your new schema
@@ -56,7 +63,7 @@ const DeviceLinkRequest = () => {
       },
     },
     {
-      dataIndex: "location", // Correct mapping
+      dataIndex: "state", // Correct mapping
       title: "Location",
       width: 150,
       sortable: false,
