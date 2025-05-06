@@ -3,11 +3,16 @@ import { Form, Input, Button, Card, message, Spin, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import React Quill styles
-import { useGetSettingsQuery, useUpdateSettingsMutation, useUpdatebannerMutation } from "../../redux/services/campaignApi";
+import {
+  useGetSettingsQuery,
+  useUpdateSettingsMutation,
+  useUpdatebannerMutation,
+} from "../../redux/services/campaignApi";
 
 const Settings = () => {
   const { data, isLoading } = useGetSettingsQuery();
-  const [updateSettings, { isLoading: isUpdating }] = useUpdateSettingsMutation();
+  const [updateSettings, { isLoading: isUpdating }] =
+    useUpdateSettingsMutation();
   const [updateBanner] = useUpdatebannerMutation();
   const [form] = Form.useForm();
 
@@ -32,15 +37,18 @@ const Settings = () => {
 
   // Handle image change
   const handleImageChange = ({ file }) => {
-    if (file.status === "done" || file.status === "uploading") {
+    if (file && file instanceof File) {  // Check if the file is a valid instance of File
       const reader = new FileReader();
       reader.onload = () => {
-        setBannerImage(reader.result);
-        setPreviewImage(URL.createObjectURL(file.originFileObj)); // Show preview
+        setBannerImage(reader.result); // base64 string
+        setPreviewImage(URL.createObjectURL(file)); // URL preview
       };
-      reader.readAsDataURL(file.originFileObj);
+      reader.readAsDataURL(file);  // Pass the file directly, not file.originFileObj
+    } else {
+      console.warn("Invalid file selected:", file);
     }
   };
+  
 
   const onFinish = async (values) => {
     try {
@@ -51,6 +59,7 @@ const Settings = () => {
         const response = await updateBanner({ image: bannerImage }).unwrap();
         bannerUrl = response.newImageUrl;
       }
+      console.log(bannerUrl);
 
       const updatedValues = {
         ...values,
@@ -88,7 +97,12 @@ const Settings = () => {
           <Form.Item label="Banner Title" name="banner_title">
             <Input />
           </Form.Item>
-
+          <Form.Item label="Banner Description" name="banner_description">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Banner Link" name="banner_link">
+            <Input />
+          </Form.Item>
           {/* Banner Upload */}
           <Form.Item label="Banner Image">
             <Upload
@@ -100,7 +114,16 @@ const Settings = () => {
               <Button icon={<UploadOutlined />}>Upload Banner</Button>
             </Upload>
             {previewImage && (
-              <img src={previewImage} alt="Banner Preview" style={{ marginTop: 10, width: "100%", maxHeight: "200px", objectFit: "cover" }} />
+              <img
+                src={previewImage}
+                alt="Banner Preview"
+                style={{
+                  marginTop: 10,
+                  width: "100%",
+                  maxHeight: "200px",
+                  objectFit: "cover",
+                }}
+              />
             )}
           </Form.Item>
 

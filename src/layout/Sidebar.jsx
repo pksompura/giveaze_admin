@@ -1,13 +1,18 @@
 import { ConfigProvider, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-import { HomeOutlined, SettingOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  SettingOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 const menuItems = [
-  {
-    label: "Category",
-    key: "/category",
-    icon: <HomeOutlined />,
-  },
+  // {
+  //   label: "Category",
+  //   key: "/category",
+  //   icon: <HomeOutlined />,
+  // },
 
   {
     label: "Campaigns",
@@ -23,11 +28,13 @@ const menuItems = [
     label: "Transactions",
     key: "/transactions",
     icon: <UserOutlined />,
-  },  {
+  },
+  {
     label: "Settings",
     key: "/settings",
     icon: <SettingOutlined />,
-  }, {
+  },
+  {
     label: "Donars",
     key: "/donars",
     icon: <SettingOutlined />,

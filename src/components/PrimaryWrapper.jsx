@@ -5,7 +5,7 @@ const PrimaryWrapper = ({ children }) => {
   return (
     <Row justify={"center"} style={{ paddingTop: "10px" }}>
       <Col style={{ width: "900px" }}>{children}</Col>
-    </Row>
+    </Row> 
   );
 };
 

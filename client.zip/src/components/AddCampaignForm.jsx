@@ -1,22 +1,29 @@
-import React from 'react';
-import { Modal, Box, TextField, Button, Typography, CircularProgress } from '@mui/material';
-import { MdPerson, MdEmail, MdPhone, MdBusiness } from 'react-icons/md';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import Swal from 'sweetalert2';
-import { useCreateEnquiryMutation } from '../redux/services/campaignApi';
+import React from "react";
+import {
+  Modal,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
+import { MdPerson, MdEmail, MdPhone, MdBusiness } from "react-icons/md";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import Swal from "sweetalert2";
+import { useCreateEnquiryMutation } from "../redux/services/campaignApi";
 
 // Validation schema
 const schema = yup.object().shape({
-  name: yup.string().required('Name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
+  name: yup.string().required("Name is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
   number: yup
     .string()
-    .matches(/^\d{10}$/, 'Mobile number must be 10 digits')
-    .required('Mobile number is required'),
-  trust: yup.string().required('Trust name is required'),
-  purpose: yup.string().required('Purpose is required'),
+    .matches(/^\d{10}$/, "Mobile number must be 10 digits")
+    .required("Mobile number is required"),
+  trust: yup.string().required("Trust name is required"),
+  purpose: yup.string().required("Purpose is required"),
 });
 
 const FormModal = ({ open, onClose }) => {
@@ -27,25 +34,25 @@ const FormModal = ({ open, onClose }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-const [create,{isLoading}]=useCreateEnquiryMutation()
-  const onSubmit = async(data) => {
- const res =await create(data)
- console.log(res)
- if(res?.data?.status){
-  onClose()
-  Swal.fire({
-    title: "Success",
-    text: "Campaign added",
-    icon: "success"
-  });
- }else{
-  onClose()
-  Swal.fire({
-    title: "Error",
-    text: res?.error.data?.error,
-    icon: "error"
-  });
- }
+  const [create, { isLoading }] = useCreateEnquiryMutation();
+  const onSubmit = async (data) => {
+    const res = await create(data);
+    console.log(res);
+    if (res?.data?.status) {
+      onClose();
+      Swal.fire({
+        title: "Success",
+        text: "Campaign added",
+        icon: "success",
+      });
+    } else {
+      onClose();
+      Swal.fire({
+        title: "Error",
+        text: res?.error.data?.error,
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -65,7 +72,7 @@ const [create,{isLoading}]=useCreateEnquiryMutation()
                 variant="outlined"
                 fullWidth
                 error={!!errors.name}
-                helperText={errors.name ? errors.name.message : ''}
+                helperText={errors.name ? errors.name.message : ""}
                 InputProps={{
                   startAdornment: <MdPerson className="mr-2 text-gray-500" />,
                 }}
@@ -82,7 +89,7 @@ const [create,{isLoading}]=useCreateEnquiryMutation()
                 variant="outlined"
                 fullWidth
                 error={!!errors.email}
-                helperText={errors.email ? errors.email.message : ''}
+                helperText={errors.email ? errors.email.message : ""}
                 InputProps={{
                   startAdornment: <MdEmail className="mr-2 text-gray-500" />,
                 }}
@@ -99,7 +106,7 @@ const [create,{isLoading}]=useCreateEnquiryMutation()
                 variant="outlined"
                 fullWidth
                 error={!!errors.number}
-                helperText={errors.number ? errors.number.message : ''}
+                helperText={errors.number ? errors.number.message : ""}
                 InputProps={{
                   startAdornment: <MdPhone className="mr-2 text-gray-500" />,
                 }}
@@ -116,7 +123,7 @@ const [create,{isLoading}]=useCreateEnquiryMutation()
                 variant="outlined"
                 fullWidth
                 error={!!errors.trust}
-                helperText={errors.trust ? errors.trust.message : ''}
+                helperText={errors.trust ? errors.trust.message : ""}
                 InputProps={{
                   startAdornment: <MdBusiness className="mr-2 text-gray-500" />,
                 }}
@@ -133,7 +140,7 @@ const [create,{isLoading}]=useCreateEnquiryMutation()
                 variant="outlined"
                 fullWidth
                 error={!!errors.purpose}
-                helperText={errors.purpose ? errors.purpose.message : ''}
+                helperText={errors.purpose ? errors.purpose.message : ""}
                 InputProps={{
                   startAdornment: <MdBusiness className="mr-2 text-gray-500" />,
                 }}
@@ -141,11 +148,11 @@ const [create,{isLoading}]=useCreateEnquiryMutation()
             )}
           />
           <Typography variant="body2" className="mt-4 text-center py-2">
-            By continuing, you are agreeing to{' '}
+            By continuing, you are agreeing to{" "}
             <a href="/terms" className="text-orange-500">
               Terms of Use
-            </a>{' '}
-            and{' '}
+            </a>{" "}
+            and{" "}
             <a href="/privacy" className="text-orange-500">
               Privacy Policy
             </a>
@@ -155,7 +162,7 @@ const [create,{isLoading}]=useCreateEnquiryMutation()
             variant="contained"
             className="w-full mt-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white"
           >
-            {isLoading?<CircularProgress size={24}/>:"Continue"}
+            {isLoading ? <CircularProgress size={24} /> : "Continue"}
           </Button>
         </form>
       </Box>

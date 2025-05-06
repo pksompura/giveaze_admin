@@ -60,11 +60,38 @@ export const campaignApi = createApi({
       }),
       invalidatesTags: ["login"],
     }),
+    // getAllUser: builder.query({
+    //   query: () => ({
+    //     url: "/users/get-all-users",
+    //   }),
+    //   providesTags: ["users"],
+    // }),
     getAllUser: builder.query({
-      query: () => ({
+      query: ({ page, search }) => ({
         url: "/users/get-all-users",
+        params: { page, search },
       }),
       providesTags: ["users"],
+    }),
+    getUserWithLoginHistory: builder.query({
+      query: (id) => ({
+        url: `/users/get-user-login-history/${id}`,
+      }),
+      providesTags: ["users"],
+    }),
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/users/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["users"],
+    }),
+    toggleBlockUser: builder.mutation({
+      query: (id) => ({
+        url: `/users/block/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["users"],
     }),
     getAllSubCampaign: builder.query({
       query: () => ({
@@ -219,6 +246,9 @@ export const {
   useSentOtpMutation,
   useVerifyOtpMutation,
   useGetAllUserQuery,
+  useLazyGetUserWithLoginHistoryQuery,
+  useDeleteUserMutation,
+  useToggleBlockUserMutation,
   useGetAllSubCampaignQuery,
   useGetSubCampaignQuery,
   useCreateSubCampaignMutation,

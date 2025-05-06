@@ -505,43 +505,6 @@ const CampaignForm = () => {
               />
             </Grid>
 
-            {/* NGO Name */}
-            <Grid item xs={6}>
-              <TextField
-                name="ngo_name"
-                label="NGO Name"
-                fullWidth
-                value={form.values?.ngo_name}
-                error={Boolean(form.errors?.ngo_name)}
-                helperText={form.errors?.ngo_name}
-                onChange={form.handleChange}
-              />
-            </Grid>
-
-            {/* Establishment Year */}
-            <Grid item xs={6}>
-              <TextField
-                name="establishment_year"
-                label="Establishment Year"
-                fullWidth
-                value={form.values?.establishment_year}
-                onChange={form.handleChange}
-              />
-            </Grid>
-
-            {/* State */}
-            <Grid item xs={6}>
-              <TextField
-                name="state"
-                label="State"
-                fullWidth
-                value={form.values?.state}
-                error={Boolean(form.errors?.state)}
-                helperText={form.errors?.state}
-                onChange={form.handleChange}
-              />
-            </Grid>
-
             {/* Beneficiary */}
             <Grid item xs={6}>
               <TextField
@@ -554,6 +517,56 @@ const CampaignForm = () => {
                 onChange={form.handleChange}
               />
             </Grid>
+
+            {/* NGO Name */}
+            {/* <Grid item xs={6}>
+              <TextField
+                name="ngo_name"
+                label="NGO Name"
+                fullWidth
+                value={form.values?.ngo_name}
+                error={Boolean(form.errors?.ngo_name)}
+                helperText={form.errors?.ngo_name}
+                onChange={form.handleChange}
+              />
+            </Grid> */}
+
+            {/* Establishment Year */}
+            {/* <Grid item xs={6}>
+              <TextField
+                name="establishment_year"
+                label="Establishment Year"
+                fullWidth
+                value={form.values?.establishment_year}
+                onChange={form.handleChange}
+              />
+            </Grid> */}
+
+            {/* State */}
+            <Grid item xs={6}>
+              <TextField
+                name="state"
+                label="Location"
+                fullWidth
+                value={form.values?.state}
+                error={Boolean(form.errors?.state)}
+                helperText={form.errors?.state}
+                onChange={form.handleChange}
+              />
+            </Grid>
+
+            {/* Beneficiary */}
+            {/* <Grid item xs={6}>
+              <TextField
+                name="beneficiary"
+                label="Beneficiary"
+                fullWidth
+                value={form.values?.beneficiary}
+                error={Boolean(form.errors?.beneficiary)}
+                helperText={form.errors?.beneficiary}
+                onChange={form.handleChange}
+              />
+            </Grid> */}
 
             {/* Minimum Amount */}
             <Grid item xs={6}>
@@ -619,8 +632,22 @@ const CampaignForm = () => {
                 label="Is Active"
               />
             </Grid>
-
+           
             {/* Is Expired */}
+            <Grid item xs={4}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="hidden"
+                    checked={Boolean(form.values?.hidden)}
+                    onChange={(e) =>
+                      form.setFieldValue("hidden", e.target.checked)
+                    }
+                  />
+                }
+                label="Hide"
+              />
+            </Grid>
             <Grid item xs={4}>
               <FormControlLabel
                 control={
@@ -632,10 +659,9 @@ const CampaignForm = () => {
                     }
                   />
                 }
-                label="Tax Benifit available"
+                label="Tax Exemption"
               />
             </Grid>
-
             {/* Is Published */}
             <Grid item xs={4}>
               <FormControlLabel

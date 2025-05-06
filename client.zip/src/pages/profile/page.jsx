@@ -116,11 +116,7 @@ const ProfilePage = () => {
           </Typography>
         );
       case "Log-Out":
-        return (
-          <Typography variant="h6">
-            You have been logged out.
-          </Typography>
-        );
+        return <Typography variant="h6">You have been logged out.</Typography>;
       default:
         return null;
     }
