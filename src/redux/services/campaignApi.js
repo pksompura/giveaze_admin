@@ -202,6 +202,11 @@ export const campaignApi = createApi({
         body,
       }),
     }),
+    getBannerImages: builder.query({
+      query: () => ({
+        url: "donation_campaign/banners/list",
+      }),
+    }),
     getAllTransactions: builder.query({
       query: (search) => ({
         url: `transactions/transactions`,
@@ -237,6 +242,7 @@ export const {
   useLazyGetTransactionsByDateQuery,
   useDeleteDonationMutation,
   useUpdatebannerMutation,
+  useGetBannerImagesQuery,
   useGetAllDonationsQuery,
   useLazyGetUserProfileQuery,
   useGetAllCampaignQuery,

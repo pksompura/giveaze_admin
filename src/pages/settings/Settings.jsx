@@ -7,6 +7,7 @@ import {
   useGetSettingsQuery,
   useUpdateSettingsMutation,
   useUpdatebannerMutation,
+  useGetBannerImagesQuery,
 } from "../../redux/services/campaignApi";
 
 const Settings = () => {
@@ -14,6 +15,7 @@ const Settings = () => {
   const [updateSettings, { isLoading: isUpdating }] =
     useUpdateSettingsMutation();
   const [updateBanner] = useUpdatebannerMutation();
+  const { data: images, isSuccess } = useGetBannerImagesQuery();
   const [form] = Form.useForm();
 
   // State for React Quill fields
@@ -24,6 +26,13 @@ const Settings = () => {
   // State for image upload
   const [bannerImage, setBannerImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
+  const [existBannerUrls, setExistBannerUrls] = useState([]);
+
+  useEffect(() => {
+    if (isSuccess && images?.banners?.length > 0) {
+      setExistBannerUrls(images.banners[0]);
+    }
+  }, [images, isSuccess]);
 
   useEffect(() => {
     if (data?.data) {
@@ -37,29 +46,30 @@ const Settings = () => {
 
   // Handle image change
   const handleImageChange = ({ file }) => {
-    if (file && file instanceof File) {  // Check if the file is a valid instance of File
+    if (file && file instanceof File) {
+      // Check if the file is a valid instance of File
       const reader = new FileReader();
       reader.onload = () => {
         setBannerImage(reader.result); // base64 string
         setPreviewImage(URL.createObjectURL(file)); // URL preview
       };
-      reader.readAsDataURL(file);  // Pass the file directly, not file.originFileObj
+      reader.readAsDataURL(file); // Pass the file directly, not file.originFileObj
     } else {
       console.warn("Invalid file selected:", file);
     }
   };
-  
 
   const onFinish = async (values) => {
     try {
       let bannerUrl = previewImage; // Use the existing banner link if no new image is uploaded
-
       if (bannerImage) {
         // Upload only if a new image is selected
-        const response = await updateBanner({ image: bannerImage }).unwrap();
+        const response = await updateBanner({
+          imageUrl: existBannerUrls,
+          newImage: bannerImage,
+        }).unwrap();
         bannerUrl = response.newImageUrl;
       }
-      console.log(bannerUrl);
 
       const updatedValues = {
         ...values,
