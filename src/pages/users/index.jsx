@@ -153,6 +153,7 @@ const Users = () => {
     setIsModalOpen(true);
     try {
       const result = await fetchLoginHistory(user._id).unwrap();
+      console.log(result);
       setLoginHistory(result || []);
     } catch (err) {
       console.error("Failed to fetch login history", err);
@@ -312,11 +313,18 @@ const Users = () => {
           <ul>
             {loginHistory.map((log, idx) => (
               <li key={idx} style={{ marginBottom: 8 }}>
-                <strong>Date:</strong> {new Date(log.time).toLocaleString()}
+                <strong>Date:</strong> {new Date(log.loginAt).toLocaleString()}
                 <br />
-                <strong>IP:</strong> {log.ip}
+                <strong>Logout:</strong>{" "}
+                {log.logoutAt !== "Not logged out yet"
+                  ? new Date(log.logoutAt).toLocaleString()
+                  : "Not logged out yet"}
                 <br />
-                <strong>Device:</strong> {log.device}
+                <strong>IP:</strong> {log.ipAddress}
+                <br />
+                <strong>Location:</strong> {log.location || "Not available"}
+                <br />
+                <strong>Device:</strong> {log.deviceInfo || "Not available"}
               </li>
             ))}
           </ul>
@@ -324,7 +332,6 @@ const Users = () => {
           <Typography.Text>No login history available.</Typography.Text>
         )}
       </Modal>
-
       <style>{`
         .blocked-user-row {
           background-color: #fff1f0 !important;
