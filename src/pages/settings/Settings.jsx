@@ -15,22 +15,22 @@ const Settings = () => {
   const [updateSettings, { isLoading: isUpdating }] =
     useUpdateSettingsMutation();
   const [updateBanner] = useUpdatebannerMutation();
-  const { data: images, isSuccess } = useGetBannerImagesQuery();
+  const { data: images, isSuccess, refetch } = useGetBannerImagesQuery();
   const [form] = Form.useForm();
 
   // State for React Quill fields
   const [privacyPolicy, setPrivacyPolicy] = useState("");
   const [terms, setTerms] = useState("");
   const [aboutUs, setAboutUs] = useState("");
-
-  // State for image upload
   const [bannerImage, setBannerImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
-  const [existBannerUrls, setExistBannerUrls] = useState([]);
+  const [existBannerUrls, setExistBannerUrls] = useState("");
 
+  // Load existing banner on mount
   useEffect(() => {
     if (isSuccess && images?.banners?.length > 0) {
       setExistBannerUrls(images.banners[0]);
+      setPreviewImage(images.banners[0]);
     }
   }, [images, isSuccess]);
 
@@ -40,35 +40,42 @@ const Settings = () => {
       setPrivacyPolicy(data.data.privacypolicy || "");
       setTerms(data.data.terms || "");
       setAboutUs(data.data.about_us || "");
-      setPreviewImage(data.data.banner_link || ""); // Set initial preview image
+      // setBannerUrl(data.data.banner_link || "");
+      setPreviewImage(existBannerUrls || ""); // Set initial preview image
     }
-  }, [data, form]);
+  }, [data, existBannerUrls, form]);
 
   // Handle image change
+  // Handle image upload
   const handleImageChange = ({ file }) => {
     if (file && file instanceof File) {
-      // Check if the file is a valid instance of File
       const reader = new FileReader();
       reader.onload = () => {
         setBannerImage(reader.result); // base64 string
-        setPreviewImage(URL.createObjectURL(file)); // URL preview
+        setPreviewImage(URL.createObjectURL(file));
       };
-      reader.readAsDataURL(file); // Pass the file directly, not file.originFileObj
+      reader.readAsDataURL(file);
     } else {
-      console.warn("Invalid file selected:", file);
+      console.warn("Invalid file selected");
     }
   };
 
   const onFinish = async (values) => {
     try {
-      let bannerUrl = previewImage; // Use the existing banner link if no new image is uploaded
+      let updatedBannerUrl = existBannerUrls;
+
       if (bannerImage) {
-        // Upload only if a new image is selected
         const response = await updateBanner({
-          imageUrl: existBannerUrls,
+          imageUrl: existBannerUrls || null,
           newImage: bannerImage,
         }).unwrap();
-        bannerUrl = response.newImageUrl;
+
+        if (response?.newImageUrl) {
+          updatedBannerUrl = response.newImageUrl;
+          setExistBannerUrls(updatedBannerUrl);
+          setPreviewImage(updatedBannerUrl);
+          await refetch(); // refresh banner list
+        }
       }
 
       const updatedValues = {
@@ -76,12 +83,12 @@ const Settings = () => {
         privacypolicy: privacyPolicy,
         terms: terms,
         about_us: aboutUs,
-        banner_link: bannerUrl, // Update with the new banner image URL
       };
 
       await updateSettings(updatedValues).unwrap();
       message.success("Settings updated successfully");
     } catch (error) {
+      console.error("Update failed:", error);
       message.error("Failed to update settings");
     }
   };

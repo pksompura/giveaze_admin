@@ -313,9 +313,10 @@ const Users = () => {
           <ul>
             {loginHistory.map((log, idx) => (
               <li key={idx} style={{ marginBottom: 8 }}>
-                <strong>Date:</strong> {new Date(log.loginAt).toLocaleString()}
+                <strong>LoginAt:</strong>{" "}
+                {new Date(log.loginAt).toLocaleString()}
                 <br />
-                <strong>Logout:</strong>{" "}
+                <strong>LogoutAt:</strong>{" "}
                 {log.logoutAt !== "Not logged out yet"
                   ? new Date(log.logoutAt).toLocaleString()
                   : "Not logged out yet"}
