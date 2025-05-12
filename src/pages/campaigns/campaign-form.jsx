@@ -119,6 +119,7 @@ const CampaignForm = () => {
           main_picture: singleCampaign?.data?.campaign?.main_picture || null,
           other_pictures: singleCampaign?.data?.campaign?.other_pictures || [],
           is_approved: singleCampaign?.data?.campaign?.is_approved || false,
+          hidden: singleCampaign?.data?.campaign?.hidden || false,
           is_tax: singleCampaign?.data?.campaign?.is_tax || false,
           is_validated: singleCampaign?.data?.campaign?.is_validated || false,
           // category: singleCampaign?.data?.campaign?.category?._id || "",
@@ -141,6 +142,7 @@ const CampaignForm = () => {
           main_picture: null,
           other_pictures: [],
           is_approved: false,
+          hidden: false,
           is_tax: false,
           is_validated: false,
           // category: "",
@@ -611,7 +613,7 @@ const CampaignForm = () => {
         name="end_date"
         label="End Date"
         type="date"
-        fullWidth
+        fullWidth 
         value={form.values?.end_date}
         onChange={form.handleChange}
       />
@@ -632,7 +634,7 @@ const CampaignForm = () => {
                 label="Is Active"
               />
             </Grid>
-           
+
             {/* Is Expired */}
             <Grid item xs={4}>
               <FormControlLabel
