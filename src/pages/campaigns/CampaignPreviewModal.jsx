@@ -31,7 +31,13 @@ function TabPanel({ children, value, index }) {
   );
 }
 
-const CampaignPreviewModal = ({ open, onClose, data, onSubmit }) => {
+const CampaignPreviewModal = ({
+  open,
+  onClose,
+  data,
+  onSubmit,
+  campaignId,
+}) => {
   const [tab, setTab] = useState(0);
   if (!data) return null;
 
@@ -157,7 +163,7 @@ const CampaignPreviewModal = ({ open, onClose, data, onSubmit }) => {
           Close
         </Button>
         <Button onClick={onSubmit} variant="contained" color="primary">
-          Preview and Create
+          {campaignId ? "Preview and Update" : "Preview and Create"}
         </Button>
       </DialogActions>
     </Dialog>

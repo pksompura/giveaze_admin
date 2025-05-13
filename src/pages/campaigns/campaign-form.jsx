@@ -108,11 +108,11 @@ const CampaignForm = () => {
             ) || [],
           // start_date: singleCampaign?.data?.campaign?.start_date ? singleCampaign?.data?.campaign?.start_date.split("T")[0] : "",
           // end_date: singleCampaign?.data?.campaign?.end_date ? singleCampaign?.data?.campaign?.end_date.split("T")[0] : "",
-          ngo_name: singleCampaign?.data?.campaign?.ngo_name || "",
+          // ngo_name: singleCampaign?.data?.campaign?.ngo_name || "",
           story: singleCampaign?.data?.campaign?.story || "",
 
-          establishment_year:
-            singleCampaign?.data?.campaign?.establishment_year || "",
+          // establishment_year:
+          //   singleCampaign?.data?.campaign?.establishment_year || "",
           state: singleCampaign?.data?.campaign?.state || "",
           beneficiary: singleCampaign?.data?.campaign?.beneficiary || "",
           video_link: singleCampaign?.data?.campaign?.video_link || "",
@@ -132,8 +132,8 @@ const CampaignForm = () => {
           // start_date: "",
           // end_date: "",
           story: "",
-          ngo_name: "",
-          establishment_year: "",
+          // ngo_name: "",
+          // establishment_year: "",
           state: "",
           beneficiary: "",
           video_link: "",
@@ -164,7 +164,7 @@ const CampaignForm = () => {
 
       // start_date: Yup.string().required("Required"),
       // end_date: Yup.string().required("Required"),
-      ngo_name: Yup.string().required("Required"),
+      // ngo_name: Yup.string().required("Required"),
       state: Yup.string().required("Required"),
       beneficiary: Yup.string().required("Required"),
       // category: Yup.string().required("Category is required"),
@@ -189,8 +189,6 @@ const CampaignForm = () => {
 
       let mainPicture;
       if (typeof values.main_picture === "object") {
-        console.log(values.main_picture);
-
         mainPicture = await base64Image(values.main_picture);
       } else if (typeof values.main_picture === "string") {
         // Extract the filename from the existing URL
@@ -613,7 +611,7 @@ const CampaignForm = () => {
         name="end_date"
         label="End Date"
         type="date"
-        fullWidth 
+        fullWidth
         value={form.values?.end_date}
         onChange={form.handleChange}
       />
@@ -680,7 +678,6 @@ const CampaignForm = () => {
               />
             </Grid>
           </Grid>
-
           {/* Submit Button */}
           <Stack
             direction="row"
@@ -724,6 +721,7 @@ const CampaignForm = () => {
         open={previewOpen}
         onClose={() => setPreviewOpen(false)}
         data={previewData}
+        campaignId={campaignId} // ← Pass campaignId here
         onSubmit={() => {
           setPreviewOpen(false);
           form.handleSubmit(); // triggers formik submission

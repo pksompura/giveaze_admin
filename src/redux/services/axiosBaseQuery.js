@@ -2,8 +2,8 @@ import axios from "axios";
 import { setAccessToken } from "../slices/authSlice";
 
 const axiosInstance = axios.create({
-  // baseURL: `https://devaseva.onrender.com/api`,
-  baseURL: `http://localhost:5001/api`,
+  baseURL: `https://devaseva.onrender.com/api`,
+  // baseURL: `http://localhost:5001/api`,
   // baseURL: `https://temple-donation.onrender.com/api`,
   headers: {
     accept: `application/json`,
