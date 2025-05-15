@@ -1,7 +1,11 @@
 import { ConfigProvider, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  BarChartOutlined,
+  CheckCircleOutlined,
+  FileDoneOutlined,
   HomeOutlined,
+  ProfileOutlined,
   SettingOutlined,
   TeamOutlined,
   UserOutlined,
@@ -38,6 +42,26 @@ const menuItems = [
     label: "Donars",
     key: "/donars",
     icon: <SettingOutlined />,
+  },
+  // {
+  //   label: "80G Submissions",
+  //   key: "/80g-submissions",
+  //   icon: <FileDoneOutlined />,
+  // },
+  // {
+  //   label: "Approved 80G Forms",
+  //   key: "/approved-80g",
+  //   icon: <CheckCircleOutlined />,
+  // },
+  // {
+  //   label: "Manage 80G Forms",
+  //   key: "/manage-80g",
+  //   icon: <ProfileOutlined />,
+  // },
+  {
+    label: "80G Reports",
+    key: "/80g-reports",
+    icon: <BarChartOutlined />,
   },
 ];
 

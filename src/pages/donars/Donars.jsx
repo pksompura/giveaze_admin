@@ -6,6 +6,7 @@ import {
   useLazyGetTransactionsByDateQuery,
 } from "../../redux/services/campaignApi";
 import dayjs from "dayjs";
+import * as XLSX from "xlsx";
 
 const { RangePicker } = DatePicker;
 
@@ -20,7 +21,7 @@ const TransactionsList = () => {
     fetchTransactionsByDate,
     { data: filteredTransactionsData, isLoading: isFetchingFilteredData },
   ] = useLazyGetTransactionsByDateQuery();
-
+  console.log(transactionsData);
   // Handle date selection
   const handleDateChange = (dates) => {
     if (dates) {
@@ -43,43 +44,62 @@ const TransactionsList = () => {
       return;
     }
 
-    try {
-      // Trigger the API call using RTK Query
-      const { data: blob, error } = await fetchTransactionsByDate({
-        start_date: dateRange[0],
-        end_date: dateRange[1],
-      });
+    if (!transactions || transactions.length === 0) return;
 
-      // Check if there's an error
-      if (error) {
-        console.error("Error during fetching:", error); // Log the error
-        throw new Error("Failed to fetch Excel file: " + error.message);
-      }
+    const formattedData = transactions.map((tx) => ({
+      "Transaction ID": tx.transaction_id,
+      "User Name": tx.user_name,
+      "Mobile Number": tx.mobile_number,
+      Email: tx.email,
+      "Amount (₹)": tx.total_amount,
+      Status: tx.payment_status,
+      Date: tx.donated_date,
+      "Campaign Title": tx.campaign_title,
+    }));
 
-      // Check if the response is a valid Blob
-      if (!blob || !(blob instanceof Blob)) {
-        throw new Error("Invalid response received, expected Blob.");
-      }
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Transactions");
 
-      // Create a download link for the Blob
-      const url = window.URL.createObjectURL(blob);
-      const fileName = `transactions_${dateRange[0]}_to_${dateRange[1]}.xlsx`;
+    XLSX.writeFile(workbook, `transactions${dateRange}.xlsx`);
 
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", fileName);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    // try {
+    //   // Trigger the API call using RTK Query
+    //   const { data: blob, error } = await fetchTransactionsByDate({
+    //     start_date: dateRange[0],
+    //     end_date: dateRange[1],
+    //   });
 
-      window.URL.revokeObjectURL(url); // Clean up the URL object
-    } catch (error) {
-      notification.error({
-        message: "Download Error",
-        description: "Failed to download the Excel file.",
-      });
-      console.error("Excel download failed:", error);
-    }
+    //   // Check if there's an error
+    //   if (error) {
+    //     console.error("Error during fetching:", error); // Log the error
+    //     throw new Error("Failed to fetch Excel file: " + error.message);
+    //   }
+
+    //   // Check if the response is a valid Blob
+    //   if (!blob || !(blob instanceof Blob)) {
+    //     throw new Error("Invalid response received, expected Blob.");
+    //   }
+
+    //   // Create a download link for the Blob
+    //   const url = window.URL.createObjectURL(blob);
+    //   const fileName = `transactions_${dateRange[0]}_to_${dateRange[1]}.xlsx`;
+
+    //   const link = document.createElement("a");
+    //   link.href = url;
+    //   link.setAttribute("download", fileName);
+    //   document.body.appendChild(link);
+    //   link.click();
+    //   document.body.removeChild(link);
+
+    //   window.URL.revokeObjectURL(url); // Clean up the URL object
+    // } catch (error) {
+    //   notification.error({
+    //     message: "Download Error",
+    //     description: "Failed to download the Excel file.",
+    //   });
+    //   console.error("Excel download failed:", error);
+    // }
   };
 
   // Map transactions data properly
@@ -91,7 +111,7 @@ const TransactionsList = () => {
     email: transaction.user_data?.email || "N/A",
     total_amount: parseFloat(transaction.total_amount.$numberDecimal),
     payment_status: transaction.payment_status,
-    donated_date: dayjs(transaction.donated_date).format("YYYY-MM-DD HH:mm"),
+    donated_date: dayjs(transaction.donated_date).format("DD-MM-YYYY HH:mm"),
     campaign_title: transaction.campaign_data?.campaign_title || "N/A",
   }));
 

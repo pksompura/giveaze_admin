@@ -187,6 +187,37 @@ export const campaignApi = createApi({
       },
       providesTags: ["donations"],
     }),
+
+    getAll80GDonations: builder.query({
+      query: ({
+        page = 1,
+        limit = 10,
+        search = "",
+        start_date = "",
+        end_date = "",
+      } = {}) => {
+        const params = new URLSearchParams();
+        params.append("page", page);
+        params.append("limit", limit);
+        if (search) params.append("search", search);
+        if (start_date) params.append("start_date", start_date);
+        if (end_date) params.append("end_date", end_date);
+
+        return {
+          url: `donation_campaign/donations/80g?${params.toString()}`,
+        };
+      },
+      providesTags: ["donations"],
+    }),
+    export80GDonations: builder.query({
+      query: ({ start_date, end_date }) => {
+        return {
+          url: `donation_campaign/donations/80g/export?start_date=${start_date}&end_date=${end_date}`,
+          responseHandler: (response) => response.blob(),
+        };
+      },
+    }),
+
     deleteDonation: builder.mutation({
       query: (id) => ({
         url: `donation_campaign/donors/${id}`,
@@ -244,6 +275,8 @@ export const {
   useUpdatebannerMutation,
   useGetBannerImagesQuery,
   useGetAllDonationsQuery,
+  useGetAll80GDonationsQuery,
+  useLazyExport80GDonationsQuery,
   useLazyGetUserProfileQuery,
   useGetAllCampaignQuery,
   useCreateCampaignMutation,

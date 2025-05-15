@@ -91,7 +91,10 @@ const Login = () => {
           >
             Admin Login
           </Typography.Title>
-          <Form style={{ width: "100%" }}>
+          <form
+            onSubmit={stepCount ? otpForm.handleSubmit : phoneForm.handleSubmit}
+            style={{ width: "100%" }}
+          >
             {stepCount ? (
               <>
                 <Form.Item>
@@ -152,7 +155,7 @@ const Login = () => {
                 </Form.Item>
               </>
             )}
-          </Form>
+          </form>
         </div>
       </Col>
     </Row>

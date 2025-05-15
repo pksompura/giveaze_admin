@@ -69,6 +69,11 @@ export const protectedRoutes = [
     exact: true,
     element: lazy(() => import("./pages/settings/Settings.jsx")),
   },
+  {
+    path: "/80g-reports",
+    exact: true,
+    element: lazy(() => import("./pages/form80g/Reports80G.jsx")),
+  },
 
   //users
 ];
