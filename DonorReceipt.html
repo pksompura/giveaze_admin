@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Giveaze Foundation Donation Receipt</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; background-color: #f6f9fc; padding: 20px; margin: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+      <tr>
+        <td align="center" style="padding-bottom: 20px;">
+          <img src="https://giveaze.com/NAME.png" alt="Giveaze Foundation" style="width: 100px; display: block; margin: 0 auto;" />
+          <h1 style="color: #1e3a8a; font-size: 24px; margin: 10px 0;">Thank you for your donation!</h1>
+        </td>
+      </tr>
+      <tr>
+        <td style="font-size: 16px; color: #333;">
+          <p style="margin: 8px 0;">Dear <strong>{{donorName}}</strong>,</p>
+          <p style="margin: 8px 0;">We are deeply grateful for your generous donation to <strong>Giveaze Foundation</strong>.</p>
+          <p style="margin: 8px 0;">Your donation receipt is detailed below:</p>
+
+          <p style="margin: 8px 0;"><strong>Donation Date:</strong> {{donationDate}}</p>
+          <p style="margin: 8px 0;"><strong>Amount:</strong> <span style="font-size: 20px; color: #1e3a8a; font-weight: bold;">$ {{amount}}</span></p>
+          <p style="margin: 8px 0;"><strong>Transaction ID:</strong> {{transactionId}}</p>
+          <p style="margin: 8px 0;"><strong>Purpose:</strong> {{notes}}</p>
+
+          <p style="margin: 16px 0;">Please retain this email as your official donation receipt for your records.</p>
+
+          <p style="margin: 8px 0;">Warm regards,<br /><strong>Giveaze Foundation Team</strong></p>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" style="padding-top: 30px; font-size: 13px; color: #555;">
+          <p style="margin: 4px 0;">📞 +91 7676931982 | ✉️ info@giveaze.com</p>
+          <p style="margin: 4px 0;">🏢 MPC1705, Parkwest, Hosakere Road, Binnypet, Bangalore - 560023</p>
+          <p style="margin: 10px 0;">© {{currentYear}} Giveaze Foundation. All rights reserved.</p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
