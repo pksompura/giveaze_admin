@@ -13,16 +13,28 @@ import {
   Box,
 } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
-// For Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { IMAGE_BASE_URL } from "../../utils/baseUrl";
 
-// Import Swiper styles
+// Swiper imports
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/autoplay"; // for autoplay
-
-// Import Pagination module properly (this is the fix)
+import "swiper/css/autoplay";
 import { Pagination, Autoplay } from "swiper/modules";
+
+// ✅ Helper function to resolve image source
+const resolveImageSrc = (src) => {
+  if (!src) return "";
+  if (typeof src !== "string") return URL.createObjectURL(src);
+
+  // If starts with "/images/", assume it's server-hosted
+  if (src.startsWith("/images/")) {
+    return `${IMAGE_BASE_URL}${src}`;
+  }
+
+  return src; // Already a full URL or base64
+};
+
 function TabPanel({ children, value, index }) {
   return (
     <div hidden={value !== index}>
@@ -31,13 +43,7 @@ function TabPanel({ children, value, index }) {
   );
 }
 
-const CampaignPreviewModal = ({
-  open,
-  onClose,
-  data,
-  onSubmit,
-  campaignId,
-}) => {
+const CampaignPreviewModal = ({ open, onClose, data, onSubmit, campaignId }) => {
   const [tab, setTab] = useState(0);
   if (!data) return null;
 
@@ -47,10 +53,7 @@ const CampaignPreviewModal = ({
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>
         Preview Campaign
-        <IconButton
-          onClick={onClose}
-          sx={{ position: "absolute", right: 8, top: 8 }}
-        >
+        <IconButton onClick={onClose} sx={{ position: "absolute", right: 8, top: 8 }}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -101,11 +104,7 @@ const CampaignPreviewModal = ({
               <Grid item xs={12}>
                 <Typography variant="subtitle2">Main Picture</Typography>
                 <img
-                  src={
-                    typeof data.main_picture === "string"
-                      ? data.main_picture
-                      : URL.createObjectURL(data.main_picture)
-                  }
+                  src={resolveImageSrc(data.main_picture)}
                   alt="Main"
                   style={{
                     maxHeight: 200,
@@ -127,24 +126,20 @@ const CampaignPreviewModal = ({
                   spaceBetween={10}
                   slidesPerView={2}
                 >
-                  {data.other_pictures.map((pic, index) => {
-                    const src =
-                      typeof pic === "string" ? pic : URL.createObjectURL(pic);
-                    return (
-                      <SwiperSlide key={index}>
-                        <img
-                          src={src}
-                          alt={`Other ${index}`}
-                          style={{
-                            height: 200,
-                            width: "100%",
-                            objectFit: "cover",
-                            borderRadius: "8px",
-                          }}
-                        />
-                      </SwiperSlide>
-                    );
-                  })}
+                  {data.other_pictures.map((pic, index) => (
+                    <SwiperSlide key={index}>
+                      <img
+                        src={resolveImageSrc(pic)}
+                        alt={`Other ${index}`}
+                        style={{
+                          height: 200,
+                          width: "100%",
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                        }}
+                      />
+                    </SwiperSlide>
+                  ))}
                 </Swiper>
               </Grid>
             )}

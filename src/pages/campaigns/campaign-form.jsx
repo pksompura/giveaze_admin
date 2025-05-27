@@ -21,6 +21,8 @@ import {
   useUpdateCampaignMutation,
   useGetCampaignQuery,
 } from "../../redux/services/campaignApi";
+import { IMAGE_BASE_URL } from '../../utils/baseUrl';
+
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, Image, message, Upload, Typography } from "antd";
 import PrimaryWrapper from "../../components/PrimaryWrapper";
@@ -287,14 +289,18 @@ const CampaignForm = () => {
                 </Button>
               </Upload>
             </Grid>
-
+{/* 
             <Grid item xs={6}>
               {typeof form.values?.main_picture === "string" && (
                 <Image
-                  src={form.values?.main_picture}
+                  // src={form.values?.main_picture}
+                        src={`${IMAGE_BASE_URL}/${form.values.main_picture}`}
+
                   height={80}
                   width={100}
                   style={{ objectFit: "contain" }}
+                        crossOrigin="anonymous"
+
                 />
               )}
               {typeof form.values?.main_picture === "object" && (
@@ -308,7 +314,28 @@ const CampaignForm = () => {
                   style={{ objectFit: "contain" }}
                 />
               )}
-            </Grid>
+            </Grid> */}
+            
+<Grid item xs={6}>
+  {typeof form.values?.main_picture === "string" && form.values.main_picture && (
+    <Image
+src={`${IMAGE_BASE_URL}${form.values.main_picture}`}
+      height={80}
+      width={100}
+      style={{ objectFit: "contain" }}
+      crossOrigin="anonymous"
+    />
+  )}
+  {typeof form.values?.main_picture === "object" && form.values.main_picture && (
+    <Image
+      src={window.URL.createObjectURL(form.values.main_picture)}
+      height={80}
+      width={100}
+      style={{ objectFit: "contain" }}
+      crossOrigin="anonymous"
+    />
+  )}
+</Grid>
 
             {/* Multiple Images Upload */}
             <Grid item xs={12}>
@@ -334,14 +361,16 @@ const CampaignForm = () => {
                 {form.values.other_pictures.map((picture, index) => (
                   <Grid item key={index}>
                     <Image
-                      src={
-                        typeof picture === "string"
-                          ? picture
-                          : window.URL.createObjectURL(picture)
-                      }
+                     src={
+          typeof picture === "string"
+            ? `${IMAGE_BASE_URL}${picture}`
+            : window.URL.createObjectURL(picture)
+        }
                       height={80}
                       width={100}
                       style={{ objectFit: "contain" }}
+                            crossOrigin="anonymous"
+
                     />
                     <Button
                       type="danger"
