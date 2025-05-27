@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
   // baseURL: `https://temple-donation.onrender.com/api`,
   headers: {
     accept: `application/json`,
+    "Content-Type": "application/json",
   },
 });
 
