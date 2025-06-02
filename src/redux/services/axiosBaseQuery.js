@@ -10,6 +10,7 @@ const axiosInstance = axios.create({
     accept: `application/json`,
     "Content-Type": "application/json",
   },
+  withCredentials: true, // Include cookies in requests
 });
 
 const setUpInterceptors = (getState, dispatch) => {
