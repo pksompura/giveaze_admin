@@ -9,6 +9,7 @@ import {
   useUpdatebannerMutation,
   useGetBannerImagesQuery,
 } from "../../redux/services/campaignApi";
+import { IMAGE_BASE_URL } from "../../utils/baseUrl";
 
 const Settings = () => {
   const { data, isLoading } = useGetSettingsQuery();
@@ -25,12 +26,20 @@ const Settings = () => {
   const [bannerImage, setBannerImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
   const [existBannerUrls, setExistBannerUrls] = useState("");
-
+  console.log(previewImage);
   // Load existing banner on mount
+  // useEffect(() => {
+  //   if (isSuccess && images?.banners?.length > 0) {
+  //     setExistBannerUrls(images.banners[0]);
+  //     setPreviewImage(images.banners[0]);
+  //   }
+  // }, [images, isSuccess]);
+
   useEffect(() => {
     if (isSuccess && images?.banners?.length > 0) {
-      setExistBannerUrls(images.banners[0]);
-      setPreviewImage(images.banners[0]);
+      const bannerPath = images.banners[0]; // already has `/images/...`
+      setExistBannerUrls(bannerPath);
+      setPreviewImage(`${IMAGE_BASE_URL}${bannerPath}`);
     }
   }, [images, isSuccess]);
 
@@ -40,12 +49,10 @@ const Settings = () => {
       setPrivacyPolicy(data.data.privacypolicy || "");
       setTerms(data.data.terms || "");
       setAboutUs(data.data.about_us || "");
-      // setBannerUrl(data.data.banner_link || "");
-      setPreviewImage(existBannerUrls || ""); // Set initial preview image
+      setPreviewImage(`${IMAGE_BASE_URL}${existBannerUrls}` || ""); // ✅ Fix this too
     }
   }, [data, existBannerUrls, form]);
 
-  // Handle image change
   // Handle image upload
   const handleImageChange = ({ file }) => {
     if (file && file instanceof File) {
@@ -73,7 +80,7 @@ const Settings = () => {
         if (response?.newImageUrl) {
           updatedBannerUrl = response.newImageUrl;
           setExistBannerUrls(updatedBannerUrl);
-          setPreviewImage(updatedBannerUrl);
+          setPreviewImage(`${IMAGE_BASE_URL}${updatedBannerUrl}`); // ✅ Add IMAGE_BASE_URL
           await refetch(); // refresh banner list
         }
       }
@@ -134,6 +141,7 @@ const Settings = () => {
               <img
                 src={previewImage}
                 alt="Banner Preview"
+                crossOrigin="anonymous"
                 style={{
                   marginTop: 10,
                   width: "100%",
