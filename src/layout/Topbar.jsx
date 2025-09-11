@@ -107,7 +107,6 @@
 import { Avatar, Button, Dropdown, Image, Row, Space, Typography } from "antd";
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { capitalize } from "lodash";
 import logo from "/giveaze2.png";
 
 const TopBar = ({ collapsed, setCollapsed, isMobile }) => {
@@ -133,7 +132,7 @@ const TopBar = ({ collapsed, setCollapsed, isMobile }) => {
     <Row
       justify="space-between"
       align="middle"
-      style={{ padding: "0 20px", height: "72px" }}
+      style={{ padding: "0 20px", height: "72px", width: "100%" }}
     >
       <Row align="middle" gutter={16}>
         {isMobile && (
@@ -143,8 +142,13 @@ const TopBar = ({ collapsed, setCollapsed, isMobile }) => {
             type="text"
           />
         )}
-        <Link to="/">
-          <Image src={logo} preview={false} height={40} />
+        <Link to="/" style={{ display: "flex", alignItems: "center" }}>
+          <Image
+            src={logo}
+            preview={false}
+            height={40}
+            style={{ objectFit: "contain", maxHeight: "40px" }}
+          />
         </Link>
       </Row>
 
