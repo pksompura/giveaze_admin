@@ -149,7 +149,7 @@ const TopBar = ({ collapsed, setCollapsed, isMobile }) => {
             type="text"
           />
         )}
-        <Link to="/" style={{ display: "flex", alignItems: "center" }}>
+        <Link to="/">
           <Image
             src={logo}
             preview={false}
