@@ -140,7 +140,8 @@ const TopBar = ({ collapsed, setCollapsed, isMobile }) => {
         backgroundColor: "#fff",
       }}
     >
-      <Row align="middle" style={{ height: "100%" }}>
+      {/* Left Side: Menu Button + Logo */}
+      <Row align="middle" gutter={16}>
         {isMobile && (
           <Button
             icon={<MenuOutlined />}
@@ -162,8 +163,9 @@ const TopBar = ({ collapsed, setCollapsed, isMobile }) => {
         </Link>
       </Row>
 
+      {/* Right Side: User Dropdown */}
       <Dropdown menu={{ items }} placement="bottomRight">
-        <Space>
+        <Space align="center">
           <Avatar
             style={{ backgroundColor: "#f56a00" }}
             icon={<UserOutlined />}
