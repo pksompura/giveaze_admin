@@ -132,9 +132,15 @@ const TopBar = ({ collapsed, setCollapsed, isMobile }) => {
     <Row
       justify="space-between"
       align="middle"
-      style={{ padding: "0 20px", height: "72px", width: "100%" }}
+      style={{
+        padding: "0 20px",
+        height: "72px",
+        width: "100%",
+        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        backgroundColor: "#fff",
+      }}
     >
-      <Row align="middle" gutter={16}>
+      <Row align="middle" style={{ height: "100%" }}>
         {isMobile && (
           <Button
             icon={<MenuOutlined />}
@@ -147,7 +153,11 @@ const TopBar = ({ collapsed, setCollapsed, isMobile }) => {
             src={logo}
             preview={false}
             height={40}
-            style={{ objectFit: "contain", maxHeight: "40px" }}
+            style={{
+              objectFit: "contain",
+              maxHeight: "40px",
+              width: "auto",
+            }}
           />
         </Link>
       </Row>
