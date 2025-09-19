@@ -105,19 +105,27 @@
 // export default SideBar;
 import { ConfigProvider, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
+// import {
+//   BarChartOutlined,
+//   FileDoneOutlined,
+//   SettingOutlined,
+//   TeamOutlined,
+//   UserOutlined,
+// } from "@ant-design/icons";
 import {
-  BarChartOutlined,
-  FileDoneOutlined,
-  SettingOutlined,
-  TeamOutlined,
-  UserOutlined,
+  FundOutlined, // for Campaigns
+  UserOutlined, // for Users
+  TransactionOutlined, // for Transactions
+  SettingOutlined, // for Settings
+  TeamOutlined, // for Donors
+  FileTextOutlined, // for 80G Reports
 } from "@ant-design/icons";
 
 const menuItems = [
   {
     label: "Campaigns",
     key: "/campaigns",
-    icon: <TeamOutlined />,
+    icon: <FundOutlined />,
   },
   {
     label: "Users",
@@ -127,7 +135,7 @@ const menuItems = [
   {
     label: "Transactions",
     key: "/transactions",
-    icon: <UserOutlined />,
+    icon: <TransactionOutlined />,
   },
   {
     label: "Settings",
@@ -135,14 +143,14 @@ const menuItems = [
     icon: <SettingOutlined />,
   },
   {
-    label: "Donars",
+    label: "Donors",
     key: "/donars",
-    icon: <SettingOutlined />,
+    icon: <TeamOutlined />,
   },
   {
     label: "80G Reports",
     key: "/80g-reports",
-    icon: <BarChartOutlined />,
+    icon: <FileTextOutlined />,
   },
 ];
 

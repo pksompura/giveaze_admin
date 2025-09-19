@@ -364,75 +364,104 @@ const DeviceLinkRequest = () => {
               />
             )}
 
-            {/* Mobile Cards */}
+            {/* Mobile Cards (Responsive) */}
             {isMobile && (
               <>
-                {(data?.campaigns || []).map((item) => (
-                  <Card
-                    key={item._id}
-                    style={{
-                      marginBottom: 16,
-                      borderRadius: 8,
-                      boxShadow: "0 1px 6px rgba(0,0,0,0.1)",
-                      padding: 12,
-                    }}
-                  >
-                    <p>
-                      <strong>ID:</strong> {item._id}
-                    </p>
-                    <p>
-                      <strong>Title:</strong>{" "}
-                      <Link to={`/campaigns/${item?._id}/edit`}>
-                        {item.campaign_title}
-                      </Link>
-                    </p>
-                    <p>
-                      <strong>Location:</strong> {item.state}
-                    </p>
-                    <p>
-                      <strong>Goal Amount:</strong> ₹
-                      {item.target_amount?.$numberDecimal || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Min Amount:</strong> ₹
-                      {item.minimum_amount?.$numberDecimal || "N/A"}
-                    </p>
-                    <p>
-                      <strong>Raised Amount:</strong> ₹
-                      {item.raised_amount?.$numberDecimal || "0"}
-                    </p>
-                    <p>
-                      <strong>Donors:</strong> {item.successfulDonations}
-                    </p>
-                    <p>
-                      <strong>Created:</strong>{" "}
-                      {moment(item.createdAt).calendar()}
-                    </p>
-                    <p>
-                      <strong>Updated:</strong>{" "}
-                      {moment(item.updatedAt).calendar()}
-                    </p>
-                    <Popconfirm
-                      title="Are you sure to delete this?"
-                      onConfirm={() => deleteRecord(item._id)}
-                      okText="Yes"
-                      okButtonProps={{ loading: deleting }}
-                      cancelText="No"
-                    >
-                      <Button icon={<DeleteOutlined />} danger block>
-                        Delete
-                      </Button>
-                    </Popconfirm>
-                  </Card>
-                ))}
+                <Row gutter={[16, 16]}>
+                  {(data?.campaigns || []).map((item) => (
+                    <Col xs={24} key={item._id}>
+                      <Card
+                        style={{
+                          borderRadius: 10,
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                        }}
+                      >
+                        <Typography.Text
+                          type="secondary"
+                          style={{ fontSize: 12, wordBreak: "break-all" }}
+                        >
+                          ID: {item._id}
+                        </Typography.Text>
+                        <Typography.Title level={5} style={{ margin: "6px 0" }}>
+                          <Link to={`/campaigns/${item._id}/edit`}>
+                            {item.campaign_title}
+                          </Link>
+                        </Typography.Title>
 
-                <div style={{ textAlign: "center", marginTop: 16 }}>
+                        <Row gutter={[8, 8]}>
+                          <Col span={12}>
+                            <p>
+                              <strong>Location:</strong> {item.state}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <p>
+                              <strong>Donors:</strong>{" "}
+                              {item.successfulDonations}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <p>
+                              <strong>Goal:</strong> ₹
+                              {item.target_amount?.$numberDecimal || "N/A"}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <p>
+                              <strong>Min:</strong> ₹
+                              {item.minimum_amount?.$numberDecimal || "N/A"}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <p>
+                              <strong>Raised:</strong> ₹
+                              {item.raised_amount?.$numberDecimal || "0"}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <p>
+                              <strong>Created:</strong>{" "}
+                              {moment(item.createdAt).format("DD MMM, YYYY")}
+                            </p>
+                          </Col>
+                          <Col span={12}>
+                            <p>
+                              <strong>Updated:</strong>{" "}
+                              {moment(item.updatedAt).format("DD MMM, YYYY")}
+                            </p>
+                          </Col>
+                        </Row>
+
+                        <Popconfirm
+                          title="Are you sure to delete this?"
+                          onConfirm={() => deleteRecord(item._id)}
+                          okText="Yes"
+                          okButtonProps={{ loading: deleting }}
+                          cancelText="No"
+                        >
+                          <Button
+                            icon={<DeleteOutlined />}
+                            danger
+                            block
+                            style={{ marginTop: 10 }}
+                          >
+                            Delete
+                          </Button>
+                        </Popconfirm>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+
+                {/* Mobile Pagination */}
+                <div style={{ textAlign: "center", marginTop: 20 }}>
                   <Pagination
                     current={+page}
                     pageSize={10}
                     total={data?.count || 0}
                     onChange={onChange}
                     showSizeChanger={false}
+                    size="small"
                   />
                 </div>
               </>

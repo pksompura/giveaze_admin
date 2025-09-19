@@ -156,7 +156,7 @@ export const campaignApi = createApi({
     getSettings: builder.query({
       query: () => ({
         url: "/users/get-settings",
-      }), 
+      }),
     }),
     getAllDonations: builder.query({
       query: ({
