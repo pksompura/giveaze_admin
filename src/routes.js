@@ -35,6 +35,12 @@ export const protectedRoutes = [
     element: lazy(() => import("./pages/campaigns/campaign-form")),
   },
   {
+    path: "/fundraiser-campaigns",
+    exact: true,
+    element: lazy(() => import("./pages/fundraiserCampaigns/index.jsx")),
+  },
+
+  {
     path: "/transactions",
     exact: true,
     element: lazy(() => import("./pages/transactions/Transactions.jsx")),

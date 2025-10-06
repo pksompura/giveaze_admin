@@ -225,6 +225,7 @@ const DeviceLinkRequest = () => {
   const { data, isLoading } = useGetAllCampaignQuery();
   const [deleteRecord, { isLoading: deleting, isSuccess, isError }] =
     useDeleteCampaignMutation();
+  console.log(data);
 
   useEffect(() => {
     if (isSuccess) message.success("Record deleted successfully");

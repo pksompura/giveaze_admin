@@ -128,6 +128,11 @@ const menuItems = [
     icon: <FundOutlined />,
   },
   {
+    label: "Fundraiser Campaigns",
+    key: "/fundraiser-campaigns",
+    icon: <TeamOutlined />,
+  },
+  {
     label: "Users",
     key: "/users",
     icon: <UserOutlined />,

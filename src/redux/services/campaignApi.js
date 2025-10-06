@@ -15,6 +15,12 @@ export const campaignApi = createApi({
       }),
       providesTags: ["campaign"],
     }),
+    getFundraiserCampaigns: builder.query({
+      query: () => ({
+        url: "donation_campaign/fundraiser-campaigns",
+      }),
+      providesTags: ["campaign"],
+    }),
     getCampaign: builder.query({
       query: (id) => ({
         url: `donation_campaign/get-by-id/${id}`,
@@ -279,6 +285,7 @@ export const {
   useLazyExport80GDonationsQuery,
   useLazyGetUserProfileQuery,
   useGetAllCampaignQuery,
+  useGetFundraiserCampaignsQuery,
   useCreateCampaignMutation,
   useGetCampaignQuery,
   useUpdateCampaignMutation,
