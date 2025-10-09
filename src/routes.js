@@ -39,7 +39,13 @@ export const protectedRoutes = [
     exact: true,
     element: lazy(() => import("./pages/fundraiserCampaigns/index.jsx")),
   },
-
+  {
+    path: "/fundraiser-campaigns/:id",
+    exact: true,
+    element: lazy(() =>
+      import("./pages/fundraiserCampaigns/CampaignDetails.jsx")
+    ),
+  },
   {
     path: "/transactions",
     exact: true,

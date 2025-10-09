@@ -271,6 +271,49 @@ export const campaignApi = createApi({
         },
       }),
     }),
+    updateWithdrawalStatus: builder.mutation({
+      query: ({ withdrawalId, status }) => ({
+        url: `/donation_campaign/${withdrawalId}/status`,
+        method: "PUT",
+        data: { status },
+      }),
+      invalidatesTags: ["Withdrawal"],
+    }),
+    // Bank Approvals
+    getBank: builder.query({
+      query: (campaignId) => ({
+        url: `/donation_campaign/${campaignId}/getbank`,
+        method: "GET",
+      }),
+      providesTags: ["Bank"],
+    }),
+
+    updateBankStatus: builder.mutation({
+      query: ({ bankId, status }) => ({
+        url: `/donation_campaign/bank/${bankId}/status`,
+        method: "PUT",
+        body: { status },
+      }),
+      invalidatesTags: ["Bank"],
+    }),
+
+    // Withdrawals
+    getWithdrawals: builder.query({
+      query: (campaignId) => ({
+        url: `/donation_campaign/${campaignId}/withdrawals`,
+        method: "GET",
+      }),
+      providesTags: ["Withdrawal"],
+    }),
+
+    updateWithdrawalStatus: builder.mutation({
+      query: ({ withdrawalId, status }) => ({
+        url: `/donation_campaign/withdrawal/${withdrawalId}/status`,
+        method: "PUT",
+        body: { status },
+      }),
+      invalidatesTags: ["Withdrawal"],
+    }),
   }),
 });
 
@@ -305,4 +348,8 @@ export const {
   useDeleteEnquiryMutation,
   useGetSettingsQuery,
   useUpdateSettingsMutation,
+  useGetBankQuery,
+  useUpdateBankStatusMutation,
+  useGetWithdrawalsQuery,
+  useUpdateWithdrawalStatusMutation,
 } = campaignApi;

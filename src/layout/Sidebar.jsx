@@ -118,7 +118,10 @@ import {
   TransactionOutlined, // for Transactions
   SettingOutlined, // for Settings
   TeamOutlined, // for Donors
-  FileTextOutlined, // for 80G Reports
+  FileTextOutlined,
+  FundProjectionScreenOutlined,
+  BankOutlined,
+  DollarOutlined, // for 80G Reports
 } from "@ant-design/icons";
 
 const menuItems = [
@@ -130,7 +133,7 @@ const menuItems = [
   {
     label: "Fundraiser Campaigns",
     key: "/fundraiser-campaigns",
-    icon: <TeamOutlined />,
+    icon: <FundProjectionScreenOutlined />,
   },
   {
     label: "Users",
