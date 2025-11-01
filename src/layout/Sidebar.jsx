@@ -141,6 +141,12 @@ const menuItems = [
     icon: <UserOutlined />,
   },
   {
+    label: "NGOs",
+    key: "/ngos",
+    icon: <BankOutlined />,
+  },
+
+  {
     label: "Transactions",
     key: "/transactions",
     icon: <TransactionOutlined />,

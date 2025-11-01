@@ -67,6 +67,17 @@ export const protectedRoutes = [
     element: lazy(() => import("./pages/users")),
   },
   {
+    path: "/ngos",
+    exact: true,
+    element: lazy(() => import("./pages/ngos/index.jsx")),
+  },
+  {
+    path: "/ngo/dashboard/:orgId",
+    exact: true,
+    element: lazy(() => import("./pages/ngos/viewNGO.jsx")),
+  },
+
+  {
     path: "/enquiries",
     exact: true,
     element: lazy(() => import("./pages/enquiry")),
@@ -86,6 +97,5 @@ export const protectedRoutes = [
     exact: true,
     element: lazy(() => import("./pages/form80g/Reports80G.jsx")),
   },
-
   //users
 ];
