@@ -241,6 +241,15 @@ const Transactions = () => {
       render: (date) => moment(date).format("YYYY-MM-DD HH:mm"),
     },
     {
+      title: "Timestamp",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date) =>
+        date
+          ? moment(date).utcOffset("+05:30").format("DD MMM YYYY, hh:mm A")
+          : "—",
+    },
+    {
       title: "Amount (INR)",
       dataIndex: "total_amount",
       key: "total_amount",
@@ -350,6 +359,13 @@ const Transactions = () => {
                   <strong>Donated Date:</strong>{" "}
                   {moment(item.donated_date).format("YYYY-MM-DD HH:mm")}
                 </p>
+                <p>
+                  <strong>Timestamp:</strong>{" "}
+                  {moment(item.createdAt)
+                    .utcOffset("+05:30")
+                    .format("DD MMM YYYY, hh:mm A")}
+                </p>
+
                 <p>
                   <strong>Amount:</strong>{" "}
                   {parseFloat(item.total_amount.$numberDecimal).toFixed(2)}
